@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Title</title>
+</h:head>
+
+<h:body>
+    <div class="card">
+        <h:form>
+            <p:menubar>
+                <p:menuitem value="Login" action="Login" rendered="#{!IndexController.userSession.loggedIn}" />
+                <p:menuitem value="Register" action="Register" rendered="#{!IndexController.userSession.loggedIn}" />
+                <p:menuitem value="Logout" action="Logout" rendered="#{IndexController.userSession.loggedIn}" />
+                <p:menuitem value="Netz erstellen" action="CreateNet" rendered="#{IndexController.userSession.loggedIn}" />
+                <p:menuitem value="Eigenes Konto" action="#{IndexController.NavigateUserDetails()}" rendered="#{IndexController.userSession.loggedIn}" />
+            </p:menubar>
+        </h:form>
+    </div>
+
+    <div class="card">
+        <h:form id="dataform" rendered="#{IndexController.userSession.salvor}">
+            <p:dataTable id="products" var="product" value="#{IndexController.ghostNets}">
+                <p:column headerText="Breitengrad">
+                    <p:link value="#{product.latitude}°" onclick="window.open('#{product.mapsURL}'); return false;" />
+                </p:column>
+                <p:column headerText="Längengrad">
+                    <p:link value="#{product.longitude}°" onclick="window.open('#{product.mapsURL}'); return false;" />
+                </p:column>
+                <p:column headerText="Gemeldete Person">
+                    <h:outputText value="#{product.detector.eMail}" />
+                </p:column>
+                <p:column headerText="Bergende Person">
+                    <p:link value="#{product.salvor.eMail}" outcome="UserDetails">
+                        <f:param name="userID" value="#{product.salvor.id}" />
+                    </p:link>
+                </p:column>
+                <p:column headerText="Status">
+                    <h:outputText value="#{product.state.label}" />
+                </p:column>
+                <p:column headerText="Geschätzte Größe">
+                    <h:outputText value="#{product.estimatedSizeinspuaremetre} m²" />
+                </p:column>
+                <p:column>
+                    <h:commandButton value="Akzeptiere Bergung" action="#{IndexController.AcceptSalvage(product)}" update="dataform" rendered="#{product.salvor == null and product.state == 'REGISTERED'}" />
+                    <h:commandButton value="Als geborgen melden" action="#{IndexController.FinishSalvage(product)}" update="dataform" rendered="#{IndexController.userSession.currentUser.equals(product.salvor) and product.state == 'SALVAGE_IMMINENT'}" />
+                    <h:commandButton value="Als verschollen melden" action="#{IndexController.MissingSalvage(product)}" update="dataform" rendered="#{IndexController.userSession.currentUser.equals(product.salvor) and product.state == 'SALVAGE_IMMINENT'}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <p:divider rendered="#{!IndexController.userSession.salvor}">
+            <p>Bitte als Bergende Person einloggen, um alle offenen Netze zu sehen</p>
+        </p:divider>
+    </div>
+</h:body>
+
+</html>

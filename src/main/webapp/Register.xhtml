@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Register</title>
+</h:head>
+
+<h:body>
+    <h:form id="form">
+        <p:panel>
+            <p:selectOneRadio id="role" required="true" value="#{RegisterController.selectedRole}">
+                <p:ajax event="valueChange" update="phonepannel" />
+                <f:selectItems value="#{RegisterController.roles}" var="role" itemLabel="#{role.label}" />
+            </p:selectOneRadio>
+        </p:panel>
+        <p:divider>
+            <p:panel>
+                <p:outputLabel value="E-Mail:" for="mail" />
+                <p:inputText id="mail" required="true" value="#{RegisterController.registerRequest.eMail}" />
+                <p:message for="mail" />
+            </p:panel>
+            <p:panel>
+                <p:outputLabel value="Vorname:" for="firstName" />
+                <p:inputText id="firstName" required="true" value="#{RegisterController.registerRequest.firstName}" />
+                <p:message for="firstName" />
+            </p:panel>
+            <p:panel>
+                <p:outputLabel value="Nachname:" for="lastName" />
+                <p:inputText id="lastName" required="true" value="#{RegisterController.registerRequest.lastName}" />
+                <p:message for="lastName" />
+            </p:panel>
+            <p:panel id="phonepannel">
+                <p:outputLabel value="Telefonnummer: " for="phone" />
+                <p:inputText id="phone" required="#{RegisterController.selectedRole.phoneRequired}" value="#{RegisterController.registerRequest.phoneNumber}" />
+                <p:message for="phone" />
+            </p:panel>
+            <p:panel>
+                <p:outputLabel value="Passwort: " for="pwd" />
+                <p:password id="pwd" required="true" value="#{RegisterController.registerRequest.password}" />
+                <p:outputLabel value="Wiederhole Passwort: " for="rpwd" />
+                <p:password id="rpwd" required="true" value="#{RegisterController.registerRequest.repeatPassword}" />
+                <p:message for="pwd" />
+            </p:panel>
+            <p:commandButton value="Submit" action="#{RegisterController.Register()}" update="form"/>
+        </p:divider>
+        <p:messages />
+    </h:form>
+    <h:form>
+        <p:commandButton styleClass="ui-button-secondary" value="Zurück" action="Index" />
+    </h:form>
+</h:body>
+
+</html>

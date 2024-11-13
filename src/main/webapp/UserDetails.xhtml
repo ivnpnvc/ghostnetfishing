@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:metadata>
+        <f:viewParam name="userID" value="#{UserDetailsController.userID}" />
+    </f:metadata>
+
+<h:head>
+    <title>Title</title>
+</h:head>
+
+<h:body>
+    <p:tabView>
+        <p:tab title="Nutzerdaten">
+            <p:panelGrid columns="2">
+                <h:outputLabel for="firstName" value="Vorname:"/>
+                <h:outputText id="firstName" value="#{UserDetailsController.user.firstName}" />
+
+                <h:outputLabel for="lastName" value="Nachname:"/>
+                <h:outputText id="lastName" value="#{UserDetailsController.user.lastName}"/>
+
+                <h:outputLabel for="mail" value="E-Mail Addresse:"/>
+                <h:outputText id="mail" value="#{UserDetailsController.user.eMail}"/>
+
+                <h:outputLabel for="phoneNumber" value="Telefonnummer:"/>
+                <h:outputText id="phoneNumber" value="#{UserDetailsController.user.phoneNumber}"/>
+            </p:panelGrid>
+        </p:tab>
+        <p:tab rendered="#{UserDetailsController.salvor != null}" title="Angenommene Bergungen">
+            <p:dataTable id="salvorproducts" var="product" value="#{UserDetailsController.salvor.acceptedGhostNets}" >
+                <p:column headerText="Breitengrad">
+                    <h:outputText value="#{product.latitude}°"/>
+                </p:column>
+                <p:column headerText="Längengrad">
+                    <h:outputText value="#{product.longitude}°" />
+                </p:column>
+                <p:column headerText="Gemeldete Person">
+                    <h:outputText value="#{product.detector.eMail}" />
+                </p:column>
+                <p:column headerText="Bergende Person">
+                    <h:outputText value="#{product.salvor.eMail}" />
+                </p:column>
+                <p:column headerText="Status">
+                    <h:outputText value="#{product.state.label}"/>
+                </p:column>
+                <p:column headerText="Geschätzte Größe" >
+                    <h:outputText value="#{product.estimatedSizeinspuaremetre} m²" />
+                </p:column>
+            </p:dataTable>
+        </p:tab>
+        <p:tab rendered="#{UserDetailsController.detector != null}" title="Gemeldete Netze">
+            <p:dataTable id="detectorproducts" var="product" value="#{UserDetailsController.detector.createdGhostNets}" >
+                <p:column headerText="Breitengrad">
+                    <h:outputText value="#{product.latitude}°"/>
+                </p:column>
+                <p:column headerText="Längengrad">
+                    <h:outputText value="#{product.longitude}°" />
+                </p:column>
+                <p:column headerText="Gemeldete Person">
+                    <h:outputText value="#{product.detector.eMail}" />
+                </p:column>
+                <p:column headerText="Bergende Person">
+                    <h:outputText value="#{product.salvor.eMail}" />
+                </p:column>
+                <p:column headerText="Status">
+                    <h:outputText value="#{product.state.label}"/>
+                </p:column>
+                <p:column headerText="Geschätzte Größe" >
+                    <h:outputText value="#{product.estimatedSizeinspuaremetre} m²" />
+                </p:column>
+            </p:dataTable>
+        </p:tab>
+    </p:tabView>
+
+    <h:form>
+        <p:commandButton styleClass="ui-button-secondary" value="Zurück" action="Index" />
+    </h:form>
+</h:body>
+
+</html>

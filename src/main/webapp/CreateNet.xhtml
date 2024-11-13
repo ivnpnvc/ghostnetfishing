@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Create Net</title>
+</h:head>
+
+<h:body>
+    <h:form rendered="#{CreateNetController.userSession.detector}">
+        <p:panel header="Standort">
+            <p:outputLabel for="lat" value="Breitengrad" />
+            <p:inputNumber required="true" id="lat" value="#{CreateNetController.createNetRequest.latitude}" />
+            <p:message for="lat" />
+            <p:outputLabel for="long" value="Längengrad" />
+            <p:inputNumber required="true" id="long" value="#{CreateNetController.createNetRequest.longitude}" />
+            <p:message for="long" />
+        </p:panel>
+        <p:panel header="Infos">
+            <p:outputLabel for="user" value="Nutzer" />
+            <h:outputText id="user" value="#{CreateNetController.createNetRequest.detector.eMail}" />
+            <p/>
+            <p:outputLabel for="size" value="Geschätze Größe in Quadratmeter" />
+            <p:inputNumber id="size" required="true" value="#{CreateNetController.createNetRequest.estimatedSizeinm2}" />
+            <p:message for="size" />
+        </p:panel>
+        <p:commandButton styleClass="ui-button-success" value="Netz erstellen" action="#{CreateNetController.CreateNet()}" />
+        <h:messages />
+    </h:form>
+    <h:form>
+        <p:commandButton styleClass="ui-button-secondary" value="Zurück" action="Index" />
+    </h:form>
+</h:body>
+
+</html>

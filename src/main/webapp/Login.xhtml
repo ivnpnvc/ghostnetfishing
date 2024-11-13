@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Title</title>
+</h:head>
+
+<h:body>
+    <h:form id="login_form">
+        <p:panel>
+        <p:outputLabel for="mail" value="E-Mail" />
+        <p:inputText id="mail" required="true"  requiredMessage="is required" value="#{LoginController.loginRequest.eMail}" />
+        <p:message id="error_name" for="mail" />
+        </p:panel>
+        <p:panel>
+        <p:outputLabel for="pwd" value="Password" />
+        <p:password required="true" id="pwd" value="#{LoginController.loginRequest.password}"/>
+        <p:message id="error_pwd" for="pwd"  />
+        </p:panel>
+         <h:messages id="messages" styleClass="ui-message-error" />
+
+        <p:commandButton value="Submit" action="#{LoginController.Login()}" update="login_form"/>
+        <p:commandButton styleClass="ui-button-secondary" value="Zurück" action="Index" />
+    </h:form>
+</h:body>
+</html>
